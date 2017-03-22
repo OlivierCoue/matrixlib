@@ -80,8 +80,24 @@ void CMatrix<MType>::MTXfinalize() {
 }
 
 template<class MType>
+CMatrix<MType> & CMatrix<MType>::getTransposed() {
+	unsigned int uiLoopColumn, uiLoopRow;
+	CMatrix<MType> * pMTXout = new CMatrix<MType>(uiMTXcolumnCount, uiMTXrowCount);		
+	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
+		for (uiLoopColumn = 0; uiLoopColumn < uiMTXcolumnCount; uiLoopColumn++)
+			pMTXout->MTXupdateCell(MTXgetCell(uiLoopRow, uiLoopColumn), uiLoopColumn, uiLoopRow);
+	return *pMTXout;
+}
+
+template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator=(CMatrix<MType> & MTXobj) {
-	MTXinitialize(MTXobj.uiMTXrowCount, MTXobj.uiMTXcolumnCount, MTXobj.pptMTXmatrix);
+	if (uiMTXcolumnCount != MTXobj.uiMTXcolumnCount || uiMTXrowCount != MTXobj.uiMTXrowCount)
+		throw new CException(3, "CIncompatibleDimensionsException");
+
+	unsigned int uiLoopColumn, uiLoopRow;	
+	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
+		for (uiLoopColumn = 0; uiLoopColumn < uiMTXcolumnCount; uiLoopColumn++)
+			MTXupdateCell(MTXobj.MTXgetCell(uiLoopRow, uiLoopColumn), uiLoopRow, uiLoopColumn);
 	return *this;
 }
 
@@ -98,7 +114,7 @@ CMatrix<MType> & CMatrix<MType>::operator*(double dValue) {
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator/(double dValue) {
 	if (dValue == 0)
-		throw new CException(2, "ArithmeticException");
+		throw new CException(2, "CArithmeticException");
 	unsigned int uiLoopColumn, uiLoopRow;
 	CMatrix<MType> * pMTXout = new CMatrix<MType>(*this);
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
@@ -116,5 +132,26 @@ CMatrix<MType> & CMatrix<MType>::operator+(CMatrix<MType> & MTXobj) {
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
 		for (uiLoopColumn = 0; uiLoopColumn < uiMTXcolumnCount; uiLoopColumn++)
 			pMTXout->MTXupdateCell(MTXgetCell(uiLoopRow, uiLoopColumn) + MTXobj.MTXgetCell(uiLoopRow, uiLoopColumn), uiLoopRow, uiLoopColumn);
+	return *pMTXout;
+}
+
+template<class MType>
+CMatrix<MType> & CMatrix<MType>::operator*(CMatrix<MType> & MTXobj) {
+	if (uiMTXcolumnCount != MTXobj.uiMTXrowCount)
+		throw new CException(3, "CIncompatibleDimensionsException");
+
+	unsigned int uiLoopColumn, uiLoopRow, uiLoopIntern;
+	MType tCurrentCellValue = 0;
+	CMatrix<MType> * pMTXout = new CMatrix<MType>(uiMTXrowCount, MTXobj.uiMTXcolumnCount);
+
+	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++) {
+		for (uiLoopColumn = 0; uiLoopColumn < MTXobj.uiMTXcolumnCount; uiLoopColumn++) {
+			tCurrentCellValue = 0;
+			for (uiLoopIntern = 0; uiLoopIntern < uiMTXcolumnCount; uiLoopIntern++) {
+				tCurrentCellValue += MTXgetCell(uiLoopRow, uiLoopIntern) * MTXobj.MTXgetCell(uiLoopIntern, uiLoopColumn);				
+			}
+			pMTXout->MTXupdateCell(tCurrentCellValue, uiLoopRow, uiLoopColumn);
+		}
+	}	
 	return *pMTXout;
 }

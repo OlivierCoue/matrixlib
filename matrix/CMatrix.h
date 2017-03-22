@@ -23,10 +23,12 @@ public:
 	void MTXupdateCell(MType tyValue, unsigned int uiRow, unsigned int uiColumn);
 	void MTXdisplay();
 	void MTXfinalize();
+	CMatrix<MType> & getTransposed();
 	CMatrix<MType> & operator=(CMatrix<MType> & MTXobj);
 	CMatrix<MType> & operator*(double dValue);
 	CMatrix<MType> & operator/(double dValue);
 	CMatrix<MType> & operator+(CMatrix<MType> & MTXobj);
+	CMatrix<MType> & operator*(CMatrix<MType> & MTXobj);
 };
 
 #include "CMatrix.cpp"
