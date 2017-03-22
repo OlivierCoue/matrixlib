@@ -28,7 +28,6 @@ void CMatrixFileReader::MFRopenFile() {
 	{
 		cout << "Impossible d'ouvrir le fichier" << endl;
 	}
-	rewind(pfMFRfile);
 }
 void CMatrixFileReader::MFRcloseFile() {
 	fclose(pfMFRfile);
@@ -78,29 +77,34 @@ char * CMatrixFileReader::MFRgetStringAfterEqualSymbol(char * pcArray) {
 char * CMatrixFileReader::MFRgetMatrixType() {
 	return MFRgetStringAfterEqualSymbol(MFRreadLine());
 }
+
 unsigned int CMatrixFileReader::MFRgetRowCount() {
-	return strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);
+	return (unsigned int)strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);
 }
+
 unsigned int CMatrixFileReader::MFRgetColumnCount() {
-	return strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);
+	return (unsigned int)strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);
 }
+
 double ** CMatrixFileReader::MFRgetMatrixDouble() {
 	rewind(pfMFRfile);
 	MFRgetMatrixType();
 	unsigned int uiRow = MFRgetRowCount();
 	unsigned int uiColumn = MFRgetColumnCount();
-	double ** ppdMatrixTab = new double *[uiRow];
+	unsigned int uiLoopRowCount, uiLoopColumnCount;
+	double ** ppdDoubleArray = new double*[uiRow];
 
+	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
+		ppdDoubleArray[uiLoopRowCount] = new double[uiColumn];
 
-	/*for (i = 0; i < parseur->M + 1; i++)
+	MFRreadLine();
+	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
 	{
-		str = readLine(parseur->file);
-		for (j = 0; j < parseur->N; j++)
+		char * pcLine = MFRreadLine();
+		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
 		{
-			parseur->Rij[i][j] = strtod(str, &str);
-		}
-		if (i == 0)    returnLine(parseur->file, 1);
+			ppdDoubleArray[uiLoopRowCount][uiLoopColumnCount] = strtod(pcLine, &pcLine);
+		}	
 	}
-	return strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);*/
-	return nullptr;
+	return ppdDoubleArray;
 }

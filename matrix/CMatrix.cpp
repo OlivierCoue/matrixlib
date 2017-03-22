@@ -34,7 +34,7 @@ void CMatrix<MType>::MTXinitialize(unsigned int uiRowCount, unsigned int uiColum
 	pptMTXmatrix = new MType*[uiMTXrowCount];
 
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
-		pptMTXmatrix[uiLoopRow] = new int[uiMTXcolumnCount];
+		pptMTXmatrix[uiLoopRow] = new MType[uiMTXcolumnCount];
 
 
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)

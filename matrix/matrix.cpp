@@ -15,10 +15,12 @@ int main(int argc, _TCHAR* argv[])
 	MTXT->MTXTtest();
 
 	CMatrixFileReader * mat1 = new CMatrixFileReader("Test.txt");
-	cout << "hello" << endl << mat1->MFRgetMatrixType() << endl;
-	cout << mat1->MFRgetRowCount() << endl;
-	cout << mat1->MFRgetColumnCount() << endl;
-
+	CMatrix<double> * matrix;
+	cout << mat1->MFRgetMatrixType() << endl;
+	int r = mat1->MFRgetRowCount();
+	int c = mat1->MFRgetColumnCount();
+	matrix = new CMatrix<double>(r, c, mat1->MFRgetMatrixDouble());
+	matrix->MTXdisplay();
 	return 0;
 }
 
