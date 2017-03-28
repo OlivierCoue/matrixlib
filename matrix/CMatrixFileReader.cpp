@@ -2,45 +2,28 @@
 #include "CMatrixFileReader.h"
 
 using namespace std;
-CMatrixFileReader::CMatrixFileReader(void) {
-	pcMFRfilename = nullptr;
-	pfMFRfile = nullptr;
-}
 
-CMatrixFileReader::CMatrixFileReader(char * pcFilename) {
-	pcMFRfilename = pcFilename;
-	MFRopenFile();
-}
-
-CMatrixFileReader::CMatrixFileReader(CMatrixFileReader & MFRobj) {
-	pcMFRfilename = MFRobj.pcMFRfilename;
-	pfMFRfile = MFRobj.pfMFRfile;
-}
-
-CMatrixFileReader::~CMatrixFileReader() {
-	delete pcMFRfilename;
-	delete pfMFRfile;
-}
-
-void CMatrixFileReader::MFRopenFile() {
-	fopen_s(&pfMFRfile, pcMFRfilename, "rt");
-	if (pfMFRfile == nullptr)
+FILE * CMatrixFileReader::MFRopenFile(char * pcFilename) {
+	FILE * pfFile = nullptr;
+	fopen_s(&pfFile, pcFilename, "rt");
+	if (pfFile == nullptr)
 	{
-		cout << "Impossible d'ouvrir le fichier" << endl;
+		throw new CException(5,"CCannotOpenFileException");
 	}
+	return pfFile;
 }
-void CMatrixFileReader::MFRcloseFile() {
-	fclose(pfMFRfile);
+void CMatrixFileReader::MFRcloseFile(FILE * pfFile) {
+	fclose(pfFile);
 }
 
-char * CMatrixFileReader::MFRreadLine() {
+char * CMatrixFileReader::MFRreadLine(FILE * pfFile) {
 	char sBuffer[128];
 	char * pcResult, *pcResultTmp, *pcNextToken;
 	int iStrSize = 0;
 	pcResult = _strdup("");
 	do
 	{
-		if (fgets(sBuffer, 100, pfMFRfile) == nullptr)
+		if (fgets(sBuffer, 100, pfFile) == nullptr)
 			return pcResult;
 		iStrSize += strlen(sBuffer);
 		pcResultTmp = pcResult;
@@ -74,37 +57,110 @@ char * CMatrixFileReader::MFRgetStringAfterEqualSymbol(char * pcArray) {
 	return pcNextToken;
 }
 
-char * CMatrixFileReader::MFRgetMatrixType() {
-	return MFRgetStringAfterEqualSymbol(MFRreadLine());
+char * CMatrixFileReader::MFRgetMatrixType(FILE * pfFile) {
+	return MFRgetStringAfterEqualSymbol(MFRreadLine(pfFile));
 }
 
-unsigned int CMatrixFileReader::MFRgetRowCount() {
-	return (unsigned int)strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);
+unsigned int CMatrixFileReader::MFRgetRowCount(FILE * pfFile) {
+	return (unsigned int)strtod(MFRgetStringAfterEqualSymbol(MFRreadLine(pfFile)), nullptr);
 }
 
-unsigned int CMatrixFileReader::MFRgetColumnCount() {
-	return (unsigned int)strtod(MFRgetStringAfterEqualSymbol(MFRreadLine()), nullptr);
+unsigned int CMatrixFileReader::MFRgetColumnCount(FILE * pfFile) {
+	return (unsigned int)strtod(MFRgetStringAfterEqualSymbol(MFRreadLine(pfFile)), nullptr);
 }
 
-double ** CMatrixFileReader::MFRgetMatrixDouble() {
-	rewind(pfMFRfile);
-	MFRgetMatrixType();
-	unsigned int uiRow = MFRgetRowCount();
-	unsigned int uiColumn = MFRgetColumnCount();
+CMatrix<double>& CMatrixFileReader::MFRcreateCMatrixDouble(char * pcFilename) {
+	FILE * pfFile = MFRopenFile(pcFilename);
+	rewind(pfFile);
+	if(strcmp(MFRgetMatrixType(pfFile),"double")!=0)
+	{
+		throw new CException(4,"CWrongTypeException");
+	}
+	unsigned int uiRow = MFRgetRowCount(pfFile);
+	unsigned int uiColumn = MFRgetColumnCount(pfFile);
 	unsigned int uiLoopRowCount, uiLoopColumnCount;
-	double ** ppdDoubleArray = new double*[uiRow];
-
-	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
-		ppdDoubleArray[uiLoopRowCount] = new double[uiColumn];
-
-	MFRreadLine();
+	CMatrix<double> * matrix = new CMatrix<double>(uiRow,uiColumn);
+	MFRreadLine(pfFile);
 	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
 	{
-		char * pcLine = MFRreadLine();
+		char * pcLine = MFRreadLine(pfFile);
 		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
 		{
-			ppdDoubleArray[uiLoopRowCount][uiLoopColumnCount] = strtod(pcLine, &pcLine);
+			matrix->MTXupdateCell(strtod(pcLine, &pcLine), uiLoopRowCount, uiLoopColumnCount);
 		}	
 	}
-	return ppdDoubleArray;
+	MFRcloseFile(pfFile);
+	return *matrix;
+}
+
+CMatrix<int>& CMatrixFileReader::MFRcreateCMatrixInt(char * pcFilename) {
+	FILE * pfFile = MFRopenFile(pcFilename);
+	rewind(pfFile);
+	if(strcmp(MFRgetMatrixType(pfFile),"int")!=0)
+	{
+		throw new CException(4,"CWrongTypeException");
+	}
+	unsigned int uiRow = MFRgetRowCount(pfFile);
+	unsigned int uiColumn = MFRgetColumnCount(pfFile);
+	unsigned int uiLoopRowCount, uiLoopColumnCount;
+	CMatrix<int> * matrix = new CMatrix<int>(uiRow,uiColumn);
+	MFRreadLine(pfFile);
+	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
+	{
+		char * pcLine = MFRreadLine(pfFile);
+		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
+		{
+			matrix->MTXupdateCell((int)strtod(pcLine, &pcLine), uiLoopRowCount, uiLoopColumnCount);
+		}	
+	}
+	MFRcloseFile(pfFile);
+	return *matrix;
+}
+
+CMatrix<char>& CMatrixFileReader::MFRcreateCMatrixChar(char * pcFilename) {
+	FILE * pfFile = MFRopenFile(pcFilename);
+	rewind(pfFile);
+	if(strcmp(MFRgetMatrixType(pfFile),"char")!=0)
+	{
+		throw new CException(4,"CWrongTypeException");
+	}
+	unsigned int uiRow = MFRgetRowCount(pfFile);
+	unsigned int uiColumn = MFRgetColumnCount(pfFile);
+	unsigned int uiLoopRowCount, uiLoopColumnCount;
+	CMatrix<char> * matrix = new CMatrix<char>(uiRow,uiColumn);
+	MFRreadLine(pfFile);
+	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
+	{
+		char * pcLine = MFRreadLine(pfFile);
+		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
+		{
+			matrix->MTXupdateCell(*strtok_s(pcLine, " ", &pcLine), uiLoopRowCount, uiLoopColumnCount);
+		}	
+	}
+	MFRcloseFile(pfFile);
+	return *matrix;
+}
+
+CMatrix<char*>& CMatrixFileReader::MFRcreateCMatrixArray(char * pcFilename) {
+	FILE * pfFile = MFRopenFile(pcFilename);
+	rewind(pfFile);
+	if(strcmp(MFRgetMatrixType(pfFile),"char*")!=0 && strcmp(MFRgetMatrixType(pfFile),"char *")!=0)
+	{
+		throw new CException(4,"CWrongTypeException");
+	}
+	unsigned int uiRow = MFRgetRowCount(pfFile);
+	unsigned int uiColumn = MFRgetColumnCount(pfFile);
+	unsigned int uiLoopRowCount, uiLoopColumnCount;
+	CMatrix<char*> * matrix = new CMatrix<char*>(uiRow,uiColumn);
+	MFRreadLine(pfFile);
+	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
+	{
+		char * pcLine = MFRreadLine(pfFile);
+		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
+		{
+			matrix->MTXupdateCell(strtok_s(pcLine, " ", &pcLine), uiLoopRowCount, uiLoopColumnCount);
+		}	
+	}
+	MFRcloseFile(pfFile);
+	return *matrix;
 }
