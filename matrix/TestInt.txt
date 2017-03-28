@@ -1,0 +1,7 @@
+TypeMatrice=intt
+NBLignes= 2
+NBColonnes= 2
+Matrice=[
+1 2
+0 -1
+]

@@ -1,0 +1,7 @@
+TypeMatrice=char
+NBLignes= 2
+NBColonnes= 2
+Matrice=[
+! (
+0 1
+]
