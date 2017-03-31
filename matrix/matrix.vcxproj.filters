@@ -33,9 +33,6 @@
     <ClInclude Include="CMatrixFileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CMatrixTest.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -51,9 +48,6 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMatrixFileReader.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CMatrixTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

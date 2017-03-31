@@ -28,8 +28,12 @@ public:
 	CMatrix<MType> & operator*(double dValue);
 	CMatrix<MType> & operator/(double dValue);
 	CMatrix<MType> & operator+(CMatrix<MType> & MTXobj);
+	CMatrix<MType> & operator-(CMatrix<MType> & MTXobj);
 	CMatrix<MType> & operator*(CMatrix<MType> & MTXobj);
 };
+
+template<class MType>
+CMatrix<MType> & operator*(double dValue, CMatrix<MType> & MTXobj);
 
 #include "CMatrix.cpp"
 
