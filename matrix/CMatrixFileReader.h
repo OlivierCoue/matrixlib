@@ -22,6 +22,7 @@ private:
 	//static void MFRreturnLine(FILE * pfFile, unsigned int uiReturnCount);
 	static char * MFRconcatenateString(char * strStart, char * strEnd);
 	static char * MFRgetStringAfterEqualSymbol(char * pcArray);
+	static char * MFRRemoveUselessSpaces(char * pcArray);
 public:
 	static CMatrix<double>& MFRcreateCMatrixDouble(char * pcFilename);
 	static CMatrix<int>& MFRcreateCMatrixInt(char * pcFilename);

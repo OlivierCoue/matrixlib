@@ -18,18 +18,23 @@ void CMatrixFileReader::MFRcloseFile(FILE * pfFile) {
 
 char * CMatrixFileReader::MFRreadLine(FILE * pfFile) {
 	char sBuffer[128];
-	char * pcResult, *pcResultTmp, *pcNextToken;
+	char * pcResult = nullptr, *pcResultTmp, *pcNextToken;
 	int iStrSize = 0;
-	pcResult = _strdup("");
-	do
-	{
-		if (fgets(sBuffer, 100, pfFile) == nullptr)
-			return pcResult;
-		iStrSize += strlen(sBuffer);
-		pcResultTmp = pcResult;
-		pcResult = MFRconcatenateString(pcResult, sBuffer);
-		delete pcResultTmp;
-	} while (sBuffer[strlen(sBuffer) - 1] != '\n');
+	bool bcontinue = true;
+	while(bcontinue) {
+		if(pcResult!=nullptr)
+			delete pcResult;
+		pcResult = _strdup("");
+		do {
+			if (fgets(sBuffer, 100, pfFile) == nullptr)
+				return pcResult;
+			iStrSize += strlen(sBuffer);
+			pcResultTmp = MFRconcatenateString(pcResult, sBuffer);
+  			delete pcResult;
+		} while (sBuffer[strlen(sBuffer) - 1] != '\n');
+		if((pcResult = MFRRemoveUselessSpaces(pcResultTmp)) != nullptr)
+			bcontinue = false;
+	}
 	return strtok_s(pcResult, "\n", &pcNextToken);
 }
 
@@ -38,7 +43,7 @@ char * CMatrixFileReader::MFRconcatenateString(char * pcStrStart, char * pcStrEn
 	char * pcResult;
 	int iSize1 = strlen(pcStrStart);
 	int iSize2 = strlen(pcStrEnd);
-	pcResult = new char[(iSize1 + iSize2 + 1) * sizeof(char)];
+	pcResult = new char[(iSize1 + iSize2)+2];
 	for (iLoopCount = 0; iLoopCount<iSize1; iLoopCount++) {
 		pcResult[iLoopCount] = pcStrStart[iLoopCount];
 	}
@@ -54,7 +59,21 @@ char * CMatrixFileReader::MFRconcatenateString(char * pcStrStart, char * pcStrEn
 char * CMatrixFileReader::MFRgetStringAfterEqualSymbol(char * pcArray) {
 	char * pcNextToken;
 	strtok_s(pcArray, "=", &pcNextToken);
+	pcNextToken = MFRRemoveUselessSpaces(pcNextToken);
 	return pcNextToken;
+}
+
+char * CMatrixFileReader::MFRRemoveUselessSpaces(char * pcArray) {
+	char * pcResult;
+	while(*pcArray==' ')
+		pcArray++;
+	for(int i=strlen(pcArray)-1; i >= 0; i--)
+		if(pcArray[i] != '\t' && pcArray[i] != ' ' && pcArray[i] != '\n') {
+   			pcResult = new char[i+2];
+			strncpy_s(pcResult, i+2, pcArray, i+1);
+			return pcResult;
+		}
+		return nullptr;
 }
 
 char * CMatrixFileReader::MFRgetMatrixType(FILE * pfFile) {
@@ -87,7 +106,7 @@ CMatrix<double>& CMatrixFileReader::MFRcreateCMatrixDouble(char * pcFilename) {
 		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
 		{
 			matrix->MTXupdateCell(strtod(pcLine, &pcLine), uiLoopRowCount, uiLoopColumnCount);
-		}	
+		}
 	}
 	MFRcloseFile(pfFile);
 	return *matrix;
@@ -144,7 +163,8 @@ CMatrix<char>& CMatrixFileReader::MFRcreateCMatrixChar(char * pcFilename) {
 CMatrix<char*>& CMatrixFileReader::MFRcreateCMatrixArray(char * pcFilename) {
 	FILE * pfFile = MFRopenFile(pcFilename);
 	rewind(pfFile);
-	if(strcmp(MFRgetMatrixType(pfFile),"char*")!=0 && strcmp(MFRgetMatrixType(pfFile),"char *")!=0)
+	char * pcLine = MFRgetMatrixType(pfFile);
+	if(strcmp(pcLine,"char*")!=0 && strcmp(pcLine,"char *")!=0)
 	{
 		throw new CException(4,"CWrongTypeException");
 	}
