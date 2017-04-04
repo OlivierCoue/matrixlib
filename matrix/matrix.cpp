@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 	// initialize matrix array from files
 	for (iLoop = 0; iLoop < iMatrixCount; iLoop++) {
 		try {
-			pMTXarray[iLoop] = CMatrixFileReader::MFRcreateCMatrixDouble2(argv[iLoop + 1]);
+			pMTXarray[iLoop] = CMatrixFileReader::MFRcreateCMatrixDouble(argv[iLoop + 1]);
 		}
 		catch (CException * EXCobj) {
 			cout << EXCobj->EXCGetMessage() << endl;
