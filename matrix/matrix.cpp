@@ -6,6 +6,8 @@
 #include <iostream>
 #include "CMatrix.h"
 
+#include "CParser.h"
+
 using namespace std;
 
 int main(int argc, char* argv[])

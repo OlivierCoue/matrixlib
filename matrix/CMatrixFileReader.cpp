@@ -11,25 +11,21 @@ char * CMatrixFileReader::MFRgetStringAfterSymbol(ifstream * pfFile, char cSymbo
 }
 
 CMatrix<double>& CMatrixFileReader::MFRcreateCMatrixDouble(char * pcFilename) {
-	double dGet;
-	ifstream * pfFile = new ifstream(pcFilename, ios::in);
-	if(strcmp(MFRgetStringAfterSymbol(pfFile,'='),"double")!=0)
-	{
+	CParser parser(pcFilename);
+	if(strcmp(parser.PRSgetValueFromKey("TypeMatrice"),"double") != 0)
 		throw new CException(4,"CWrongTypeException");
-	}
-	unsigned int uiRow = atoi(MFRgetStringAfterSymbol(pfFile,'='));
-	unsigned int uiColumn = atoi(MFRgetStringAfterSymbol(pfFile,'='));
+
+	unsigned int uiRow = atoi(parser.PRSgetValueFromKey("NBLignes"));
+	unsigned int uiColumn = atoi(parser.PRSgetValueFromKey("NBColonnes"));
+	char ** ppcArray = parser.PRSgetArrayFromKey("Matrice");
 	unsigned int uiLoopRowCount, uiLoopColumnCount;
 	CMatrix<double> * matrix = new CMatrix<double>(uiRow,uiColumn);
-	pfFile->ignore(128,'[');
 	for (uiLoopRowCount = 0; uiLoopRowCount < uiRow; uiLoopRowCount++)
 	{
 		for (uiLoopColumnCount = 0; uiLoopColumnCount < uiColumn; uiLoopColumnCount++)
 		{
-			*pfFile >> dGet;
-			matrix->MTXupdateCell(dGet, uiLoopRowCount, uiLoopColumnCount);
+			matrix->MTXupdateCell(strtod(ppcArray[uiLoopRowCount],ppcArray+uiLoopRowCount), uiLoopRowCount, uiLoopColumnCount);
 		}
 	}
-	pfFile->close();
 	return *matrix;
 }

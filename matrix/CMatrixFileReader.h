@@ -1,6 +1,7 @@
 #ifndef CMATRIXFILEREADER_H
 #define CMATRIXFILEREADER_H
 #include <fstream>
+#include "CParser.h"
 #include "CMatrix.h"
 #include "CException.h"
 
