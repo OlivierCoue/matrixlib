@@ -2,14 +2,15 @@
 #include "CMatrixFileReader.h"
 
 using namespace std;
-
-char * CMatrixFileReader::MFRgetStringAfterSymbol(ifstream * pfFile, char cSymbol) {
-	pfFile->ignore(128, cSymbol);
-	char * pcCharArray = new char[128];
-	pfFile->getline(pcCharArray,128);
-	return pcCharArray;
-}
-
+/**********************************
+	Créer une matrice de double
+	**********************************
+	Entrée : chaine de caractères représentant le nom et le chemin du fichier (pcFilename)
+	Necessite : néant
+	Sortie : reférence sur un objet de type CMatrix<double> 
+		représentant la matrice du fichier pcFilename
+	Entraîne : néant
+	**********************************/
 CMatrix<double>& CMatrixFileReader::MFRcreateCMatrixDouble(char * pcFilename) {
 	CParser parser(pcFilename);
 	if(strcmp(parser.PRSgetValueFromKey("TypeMatrice"),"double") != 0)

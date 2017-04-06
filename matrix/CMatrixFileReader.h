@@ -8,20 +8,6 @@
 
 class CMatrixFileReader
 {
-private:
-
-	/**********************************
-	Lire une chaine de caractères dans un fichier après un symbole
-	**********************************
-	Entrée : pointeur sur un objet ifstream contenant le fichier ouvert (pfFile)
-		un caractère représentant le symbole a partir du quel il faut lire
-		la chaine de caractères (cSymbol)
-	Necessite : néant
-	Sortie : chaine de caractères représentant les caractères entre cSymbol
-		et la fin de ligne
-	Entraîne : lecture dans le fichier pfFile
-	**********************************/
-	static char * MFRgetStringAfterSymbol(ifstream * pfFile, char cSymbol);
 public:
 
 	/**********************************
