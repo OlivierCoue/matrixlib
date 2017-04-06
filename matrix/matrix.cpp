@@ -6,11 +6,12 @@
 #include <iostream>
 #include "CMatrix.h"
 
+#include "CParser.h"
+
 using namespace std;
 
 int main(int argc, char* argv[])
 {
-
 	int iLoop, iMatrixCount = argc-1;
 	double dValue;
 	CMatrix<double> * pMTXarray = new CMatrix<double>[iMatrixCount];
