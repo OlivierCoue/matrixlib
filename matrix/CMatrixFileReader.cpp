@@ -28,7 +28,7 @@ char * CMatrixFileReader::MFRreadLine(FILE * pfFile) {
 		iStrSize += strlen(sBuffer);
 		pcResultTmp = pcResult;
 		pcResult = MFRconcatenateString(pcResult, sBuffer);
-		delete pcResultTmp;
+		//delete pcResultTmp;
 	} while (sBuffer[strlen(sBuffer) - 1] != '\n');
 	return strtok_s(pcResult, "\n", &pcNextToken);
 }

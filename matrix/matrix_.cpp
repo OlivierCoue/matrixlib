@@ -1,4 +1,4 @@
-// matrix.cpp : Defines the entry point for the console application.
+﻿// matrix.cpp : Defines the entry point for the console application.
 //
 
 #include "stdafx.h"
@@ -15,18 +15,12 @@ int main(int argc, char* argv[])
 	double dValue;
 	CMatrix<double> * pMTXarray = new CMatrix<double>[iMatrixCount];
 
-	cout << " __  __       _        _      _	     _ _" << endl
-		<< "|  \\/  |     | |      (_)    | |    (_) |" << endl
-		<< "| \\  / | __ _| |_ _ __ ___  _| |     _| |__" << endl
-		<< "| |\\/| |/ _` | __| '__| \\ \\/ / |    | | '_ \\" << endl
-		<< "| |  | | (_| | |_| |  | |>  <| |____| | |_) |" << endl
-		<< "|_|  |_|\\__,_|\\__|_|  |_/_/\\_\\______|_|_.__/" << endl 
-		<< "                                         v1.0" << endl << endl;
-
 	if (iMatrixCount == 0) {
 		cerr << "No input files" << endl;
 		exit(-1);
 	}
+
+	//cout << "| \\ / | | | (_) | | (_) |\n| \\ / | __ _ | | _ _ __ ___  _ | | _ | | __\n| | \\ / | | / _` | __ | '__| \\ \\/ / |    | | '_ \\\n| | | | (_ | | | _ | | | | >  < | | ____ | | | _) |\n| _ | | _ | \\__, _ | \\__ | _ | | _ / _ / \\_\\______ | _ | _.__ /";
 
 	// initialize matrix array from files
 	for (iLoop = 0; iLoop < iMatrixCount; iLoop++) {
