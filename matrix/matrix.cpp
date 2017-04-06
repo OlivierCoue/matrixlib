@@ -4,14 +4,20 @@
 #include "stdafx.h"
 #include "CMatrixFileReader.h"
 #include <iostream>
+#include "CMatrixTest.h"
 #include "CMatrix.h"
-
 #include "CParser.h"
+
+//#define MAKE_TEST
 
 using namespace std;
 
 int main(int argc, char* argv[])
 {
+	#ifdef MAKE_TEST
+	CMatrixTest::MTTmakeTest();
+	#endif // MAKE_TEST
+
 	int iLoop, iMatrixCount = argc-1;
 	double dValue;
 	CMatrix<double> * pMTXarray = new CMatrix<double>[iMatrixCount];
@@ -35,7 +41,7 @@ int main(int argc, char* argv[])
 			pMTXarray[iLoop] = CMatrixFileReader::MFRcreateCMatrixDouble(argv[iLoop + 1]);
 		}
 		catch (CException * EXCobj) {
-			cout << EXCobj->EXCGetMessage() << endl;
+			cout << EXCobj->EXCGetMessage() << endl << endl;
 			exit(-1);
 		}
 	}
@@ -62,7 +68,7 @@ int main(int argc, char* argv[])
 			(pMTXarray[iLoop] / dValue).MTXdisplay();
 		}
 		catch (CException * EXCobj) {
-			cout << EXCobj->EXCGetMessage() << endl;
+			cout << EXCobj->EXCGetMessage() << endl << endl;
 		}
 	}
 

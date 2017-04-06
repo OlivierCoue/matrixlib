@@ -38,7 +38,6 @@ Entraîne : initialisation de l'objet
 CException::CException(unsigned int uiValue, char * pcMessage) {
 	uiEXCValue = uiValue;
 	pcEXCMessage = _strdup(pcMessage);
-	cout << endl << pcEXCMessage << endl;
 }
 
 /**********************************

@@ -76,7 +76,7 @@ char * CParser::PRSremoveUselessBlanks(char * pcArray) {
 	unsigned int uiLoopCount;
 	while(*pcArray==' ')
 		pcArray++;
-	for(int uiLoopCount=strlen(pcArray)-1; uiLoopCount > 0; uiLoopCount--)
+	for(int uiLoopCount=strlen(pcArray)-1; uiLoopCount >= 0; uiLoopCount--)
 		if(pcArray[uiLoopCount] != '\t' && pcArray[uiLoopCount] != ' ' && pcArray[uiLoopCount] != '\n') {
    			pcResult = new char[uiLoopCount+2];
 			strncpy_s(pcResult, uiLoopCount+2, pcArray, uiLoopCount+1);
