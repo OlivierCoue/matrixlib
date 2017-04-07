@@ -20,7 +20,7 @@ Constructeur de recopie
 Entrée : un objet de type CMatrix<MType> (MTXobj)
 Necessite : néant
 Sortie : rien
-Entraîne : initialisation d'une matrice par recopie de MTXobj
+Entraîne : initialisation d'une matrice par recopie de MTXobj 
 **********************************/
 template<class MType>
 CMatrix<MType>::CMatrix(CMatrix<MType> & MTXobj) {
@@ -175,7 +175,7 @@ Sortie : référence sur un objet de type CMatrix<MType>
 Entraîne : rien
 **********************************/
 template<class MType>
-CMatrix<MType> & CMatrix<MType>::getTransposed() {
+CMatrix<MType> & CMatrix<MType>::MTXgetTransposed() {
 	unsigned int uiLoopColumn, uiLoopRow;
 	CMatrix<MType> * pMTXout = new CMatrix<MType>(uiMTXcolumnCount, uiMTXrowCount);		
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)

@@ -10,7 +10,7 @@ using namespace std;
 class CParser
 {
 private:
-	ifstream * pfFile;
+	ifstream * pfPRSfile;
 
 	/**********************************
 	Récuperer la position de la clé

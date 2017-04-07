@@ -128,7 +128,7 @@ public:
 		représentant la matrice transposée de la matrice courante
 	Entraîne : rien
 	**********************************/
-	CMatrix<MType> & getTransposed();
+	CMatrix<MType> & MTXgetTransposed();
 
 
 	/**********************************

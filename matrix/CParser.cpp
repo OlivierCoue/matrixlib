@@ -14,28 +14,27 @@
 streampos CParser::PRSfoundKey(char * pcKey) {
 	char * pcLine = nullptr;
 	char * pcLineTemp = new char[256];
-	unsigned int uiLoopCount;
 	bool bContinue = true;
-	streampos sInitialPos = pfFile->tellg();
+	streampos sInitialPos = pfPRSfile->tellg();
 	streampos sCurrentPos;
 	while(bContinue) {
-		sCurrentPos = pfFile->tellg();
-		pfFile->getline(pcLineTemp,256);
+		sCurrentPos = pfPRSfile->tellg();
+		pfPRSfile->getline(pcLineTemp,256);
 		if(strchr(pcLineTemp,'=')!=nullptr) {
-			pfFile->seekg(sCurrentPos);
-			pfFile->getline(pcLineTemp,256,'=');
+			pfPRSfile->seekg(sCurrentPos);
+			pfPRSfile->getline(pcLineTemp,256,'=');
 			pcLine = PRSremoveUselessBlanks(pcLineTemp);
 			if(strcmp(pcLine,pcKey)==0)
 				bContinue = false;
 			else
-				pfFile->ignore(256,'\n');
+				pfPRSfile->ignore(256,'\n');
 		}
-		if(pfFile->eof())
+		if(pfPRSfile->eof())
 			throw new CException(5,"CKeyNotFoundException");
 	}
-	sCurrentPos = pfFile->tellg();
-	pfFile->clear();
-	pfFile->seekg(sInitialPos);
+	sCurrentPos = pfPRSfile->tellg();
+	pfPRSfile->clear();
+	pfPRSfile->seekg(sInitialPos);
 	return sCurrentPos;
 }
 
@@ -53,7 +52,7 @@ char * CParser::PRSremoveUselessBlanks(char * pcArray) {
 	unsigned int uiLoopCount;
 	while(*pcArray==' ')
 		pcArray++;
-	for(int uiLoopCount=strlen(pcArray)-1; uiLoopCount >= 0; uiLoopCount--)
+	for(uiLoopCount=strlen(pcArray)-1; uiLoopCount >= 0; uiLoopCount--)
 		if(pcArray[uiLoopCount] != '\t' && pcArray[uiLoopCount] != ' ' && pcArray[uiLoopCount] != '\n') {
    			pcResult = new char[uiLoopCount+2];
 			strncpy_s(pcResult, uiLoopCount+2, pcArray, uiLoopCount+1);
@@ -68,11 +67,11 @@ char * CParser::PRSremoveUselessBlanks(char * pcArray) {
 	Entrée : chaine de caractères représentant le nom et le chemin du fichier (pcFilename)
 	Necessite : néant
 	Sortie : rien
-	Entraîne : ouverture du fichier et stockage dans l'attribut privé pfFile
+	Entraîne : ouverture du fichier et stockage dans l'attribut privé pfPRSfile
 	**********************************/
 CParser::CParser(char * pcFilename) {
-	pfFile = new ifstream(pcFilename, ios::in);
-	if ( (pfFile->rdstate() & std::ifstream::failbit ) != 0 )
+	pfPRSfile = new ifstream(pcFilename, ios::in);
+	if ( (pfPRSfile->rdstate() & std::ifstream::failbit ) != 0 )
 		throw new CException(5,"CCannotOpenFileException");
 }
 	
@@ -82,10 +81,10 @@ CParser::CParser(char * pcFilename) {
 	Entrée : rien
 	Necessite : néant
 	Sortie : rien
-	Entraîne : fermeture du fichier pfFile
+	Entraîne : fermeture du fichier pfPRSfile
 	**********************************/
 CParser::~CParser(void) {
-	pfFile->close();
+	pfPRSfile->close();
 }
 
 	/**********************************
@@ -107,12 +106,12 @@ char * CParser::PRSgetValueFromKey(char * pcKey) {
 	catch(CException * e) {
 		throw e;
 	}
-	pfFile->seekg(sCurrentPos);
- 	pfFile->getline(pcLineTemp,256);
+	pfPRSfile->seekg(sCurrentPos);
+ 	pfPRSfile->getline(pcLineTemp,256);
 	pcLine = PRSremoveUselessBlanks(pcLineTemp);
 	delete pcLineTemp;
-	pfFile->clear();
-	pfFile->seekg(0);
+	pfPRSfile->clear();
+	pfPRSfile->seekg(0);
 	return pcLine;
 }
 
@@ -126,7 +125,6 @@ char * CParser::PRSgetValueFromKey(char * pcKey) {
 	Entraîne : néant
 	**********************************/
 char ** CParser::PRSgetArrayFromKey(char * pcKey) {
-	char cCar;
 	char **pcArray;
 	char * pcLine = new char[256];
 	streampos sCurrentPos;
@@ -137,32 +135,32 @@ char ** CParser::PRSgetArrayFromKey(char * pcKey) {
 	catch(CException * e) {
 		throw e;
 	}
-	pfFile->seekg(sCurrentPos);
-	pfFile->ignore(256,'\n');
-	sCurrentPos=pfFile->tellg();
-	pfFile->getline(pcLine,256);
+	pfPRSfile->seekg(sCurrentPos);
+	pfPRSfile->ignore(256,'\n');
+	sCurrentPos=pfPRSfile->tellg();
+	pfPRSfile->getline(pcLine,256);
 	while(strchr(pcLine,']')== nullptr) {
-		pfFile->getline(pcLine,256);
+		pfPRSfile->getline(pcLine,256);
 		uiNbLine++;
 	}
-	pfFile->clear();
-	pfFile->seekg(sCurrentPos);
+	pfPRSfile->clear();
+	pfPRSfile->seekg(sCurrentPos);
 	pcArray = new char*[uiNbLine];
 	delete pcLine;
 	for(uiLineCount=0; uiLineCount < uiNbLine; uiLineCount++) {
 		pcLine = new char[uiArraySize];
-		while(!pfFile->getline(pcLine,uiArraySize)) {
+		while(!pfPRSfile->getline(pcLine,uiArraySize)) {
 			uiArraySize+=56;
 			delete pcLine;
 			pcLine = new char[uiArraySize];
-			pfFile->clear();
-			pfFile->seekg(sCurrentPos);
+			pfPRSfile->clear();
+			pfPRSfile->seekg(sCurrentPos);
 		}
 		pcArray[uiLineCount] = pcLine;
-		sCurrentPos = pfFile->tellg();
+		sCurrentPos = pfPRSfile->tellg();
 	}
-	pfFile->clear();
-	pfFile->seekg(0);
+	pfPRSfile->clear();
+	pfPRSfile->seekg(0);
 	return pcArray;
 }
 
