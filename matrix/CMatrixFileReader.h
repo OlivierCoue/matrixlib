@@ -11,13 +11,12 @@ class CMatrixFileReader
 public:
 
 	/**********************************
-	Créer une matrice de double
+	Create matrix of double from file
 	**********************************
-	Entrée : chaine de caractères représentant le nom et le chemin du fichier (pcFilename)
-	Necessite : néant
-	Sortie : reférence sur un objet de type CMatrix<double> 
-		représentant la matrice du fichier pcFilename
-	Entraîne : néant
+	Input : characters array representing the file name and path
+	Required : nothing
+	Output : a CMatrix<double> object reference representing the matrix of the file
+	Consequence : nothing
 	**********************************/
 	static CMatrix<double>& MFRcreateCMatrixDouble(char * pcFilename);
 };

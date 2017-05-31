@@ -1,101 +1,97 @@
-
 #include "stdafx.h"
 #include "CException.h"
 
 /**********************************
-Constructeur par défaut
+Default constructor
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : rien
-Entraîne : initialisation de l'objet
+Input : nothing
+Required : nothing
+Output : nothing
+Consequence : initialize an empty object
 **********************************/
 CException::CException() {
-	pcEXCMessage = nullptr;
 }
 
 /**********************************
-Constructeur de recopie
+Clone constructor
 **********************************
-Entrée : un objet de type CException
-Necessite : néant
-Sortie : rien
-Entraîne : initialisation de l'objet
+Input : object of type CException
+Required : nothing
+Output : nothing
+Consequence : initialization of an exception by copy of EXCobj
 **********************************/
 CException::CException(CException & EXCobj) {
 	uiEXCValue = EXCobj.uiEXCValue;
-	pcEXCMessage = _strdup(EXCobj.pcEXCMessage);
 }
 
 /**********************************
-Constructeur à deux arguments
+Constructor with one argument
 **********************************
-Entrée : la valeur et le message
-Necessite : néant
-Sortie : rien
-Entraîne : initialisation de l'objet
+Input : integer representing the error value
+Required : nothing
+Output : nothing
+Consequence : initialization of the object
 **********************************/
-CException::CException(unsigned int uiValue, char * pcMessage) {
+CException::CException(unsigned int uiValue) {
 	uiEXCValue = uiValue;
-	pcEXCMessage = _strdup(pcMessage);
+	cout << endl << "Exception code: " << uiValue << endl;
 }
 
 /**********************************
-Destructeur
+Destructor
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : rien
-Entraîne : finalisation de l'objet
+Input : nothing
+Required : nothing
+Output : nothing
+Consequence : finalize the object
 **********************************/
 CException::~CException() {
-	delete pcEXCMessage;
 }
 
 /**********************************
-Accesseur écriture uiEXCValue
+Setter uiEXCValue
 **********************************
-Entrée : un entier non signé
-Necessite : néant
-Sortie : rien
-Entraîne : modification de uiEXCValue
+Input : unsigned integer
+Required : nothing
+Output : nothing
+Consequence : modify uiEXCValue
 **********************************/
 void CException::EXCSetValue(unsigned int uiValue) {
 	uiEXCValue = uiValue;
 }
 
 /**********************************
-Accesseur lecture uiEXCValue
+Getter uiEXCValue
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : uiEXCValue
-Entraîne :rien
+Input : nothing
+Required : nothing
+Output : uiEXCValue
+Consequence : nothing
 **********************************/
 unsigned int CException::EXCGetValue() {
 	return uiEXCValue;
 }
 
 /**********************************
-Accesseur écriture pcEXCMessage
+Get message corresponding to the value
 **********************************
-Entrée : un pointeur sur un caractère (chaine)
-Necessite : néant
-Sortie : rien
-Entraîne : modification de pcEXCMessage
-**********************************/
-void CException::EXCSetMessage(char * pcMessage) {
-	pcEXCMessage = _strdup(pcMessage);
-}
-
-/**********************************
-Accesseur lecture pcEXCMessage
-**********************************
-Entrée : rien
-Necessite : néant
-Sortie : pcEXCMessage
-Entraîne :rien
+Input : nothing
+Required : nothing
+Output : characters array corresponding to uiEXCValue
+Consequence : nothing
 **********************************/
 char * CException::EXCGetMessage() {
-	return pcEXCMessage;
+	char * pcMessage;
+	switch (uiEXCValue)
+	{
+	case 1: pcMessage = _strdup("Array index out of bounds"); break;
+	case 2: pcMessage = _strdup("Incompatible dimensions"); break;
+	case 3: pcMessage = _strdup("Arithmetic error"); break;
+	case 4: pcMessage = _strdup("Wrong matrix type"); break;
+	case 5: pcMessage = _strdup("Can not open file"); break;
+	case 6: pcMessage = _strdup("Key not found"); break;
+	default:pcMessage = _strdup("Unknown exception"); break;
+		break;
+	};
+	return pcMessage;
 }

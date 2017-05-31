@@ -24,19 +24,22 @@
     <ClInclude Include="targetver.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="CMatrix.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="CMatrixFileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CParser.h">
+    <ClInclude Include="CMatrixTest.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="CMatrixTest.h">
+    <ClInclude Include="CMatrixOperation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="CParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -47,19 +50,22 @@
     <ClCompile Include="matrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="CMatrix.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="CMatrixFileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CParser.cpp">
+    <ClCompile Include="CMatrixTest.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="CMatrixTest.cpp">
+    <ClCompile Include="CMatrixOperation.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="CParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

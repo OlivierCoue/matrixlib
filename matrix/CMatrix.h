@@ -83,6 +83,10 @@ public:
 		de la matrice, lève une excpetion si uiRow ou uiColumn est suppérieur
 		au dimension de la matrice
 	**********************************/
+
+	unsigned int MTXgetColumnCount();
+	unsigned int MTXgetRowCount();
+
 	inline MType MTXgetCell(unsigned int uiRow, unsigned int uiColumn);
 
 	/**********************************

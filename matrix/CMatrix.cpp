@@ -90,6 +90,16 @@ void CMatrix<MType>::MTXinitialize(unsigned int uiRowCount, unsigned int uiColum
 				pptMTXmatrix[uiLoopRow][uiLoopColumn] = pptyArray[uiLoopRow][uiLoopColumn];
 }
 
+template<class MType>
+unsigned int CMatrix<MType>::MTXgetColumnCount() {
+	return uiMTXcolumnCount;
+}
+
+template<class MType>
+unsigned int CMatrix<MType>::MTXgetRowCount() {
+	return uiMTXrowCount;
+}
+
 /**********************************
 Accesseur lecture d'une cellule de la matrice
 **********************************
@@ -106,7 +116,7 @@ Entraîne : retourne la valeur ce trouvant à la position [uiRow][uiColumn]
 template<class MType>
 MType CMatrix<MType>::MTXgetCell(unsigned int uiRow, unsigned int uiColumn) {
 	if (uiRow >= uiMTXrowCount || uiColumn >= uiMTXcolumnCount)
-		throw new CException(1, "arrayindexoutofbounds");
+		throw new CException(ARRAY_INDEX_OUT_OF_BOUNDS);
 	return pptMTXmatrix[uiRow][uiColumn];
 }
 
@@ -125,7 +135,7 @@ Entraîne : modifie la valeur ce trouvant à la position
 template<class MType>
 void CMatrix<MType>::MTXupdateCell(MType tyValue, unsigned int uiRow, unsigned int uiColumn) {
 	if (uiRow >= uiMTXrowCount || uiColumn >= uiMTXcolumnCount)
-		throw new CException(1, "arrayindexoutofbounds");
+		throw new CException(ARRAY_INDEX_OUT_OF_BOUNDS);
 	pptMTXmatrix[uiRow][uiColumn] = tyValue;
 }
 
@@ -201,7 +211,7 @@ CMatrix<MType> & CMatrix<MType>::operator=(CMatrix<MType> & MTXobj) {
 	}
 
 	if (uiMTXcolumnCount != MTXobj.uiMTXcolumnCount || uiMTXrowCount != MTXobj.uiMTXrowCount)
-		throw new CException(3, "CIncompatibleDimensionsException");
+		throw new CException(INCOMPATIBLE_DIMENSIONS);
 
 	unsigned int uiLoopColumn, uiLoopRow;	
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
@@ -242,7 +252,7 @@ Entraîne : rien
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator/(double dValue) {
 	if (dValue == 0)
-		throw new CException(2, "CArithmeticException");
+		throw new CException(ARITHMETIC_ERROR);
 	unsigned int uiLoopColumn, uiLoopRow;
 	CMatrix<MType> * pMTXout = new CMatrix<MType>(*this);
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
@@ -264,7 +274,7 @@ Entraîne : rien
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator+(CMatrix<MType> & MTXobj) {
 	if (uiMTXrowCount != MTXobj.uiMTXrowCount || uiMTXcolumnCount != MTXobj.uiMTXcolumnCount)
-		throw new CException(3, "CIncompatibleDimensionsException");
+		throw new CException(INCOMPATIBLE_DIMENSIONS);
 	unsigned int uiLoopColumn, uiLoopRow;
 	CMatrix<MType> * pMTXout = new CMatrix<MType>(*this);
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
@@ -286,7 +296,7 @@ Entraîne : rien
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator-(CMatrix<MType> & MTXobj) {
 	if (uiMTXrowCount != MTXobj.uiMTXrowCount || uiMTXcolumnCount != MTXobj.uiMTXcolumnCount)
-		throw new CException(3, "CIncompatibleDimensionsException");
+		throw new CException(INCOMPATIBLE_DIMENSIONS);
 	unsigned int uiLoopColumn, uiLoopRow;
 	CMatrix<MType> * pMTXout = new CMatrix<MType>(*this);
 	for (uiLoopRow = 0; uiLoopRow < uiMTXrowCount; uiLoopRow++)
@@ -309,7 +319,7 @@ Entraîne : rien
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator*(CMatrix<MType> & MTXobj) {
 	if (uiMTXcolumnCount != MTXobj.uiMTXrowCount)
-		throw new CException(3, "CIncompatibleDimensionsException");
+		throw new CException(INCOMPATIBLE_DIMENSIONS);
 
 	unsigned int uiLoopColumn, uiLoopRow, uiLoopIntern;
 	MType tCurrentCellValue = 0;

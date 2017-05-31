@@ -7,6 +7,7 @@
 #include "CMatrixTest.h"
 #include "CMatrix.h"
 #include "CParser.h"
+#include "CMatrixOperation.h"
 
 //#define MAKE_TEST
 
@@ -98,6 +99,10 @@ int main(int argc, char* argv[])
 		MTXproduct = MTXproduct * pMTXarray[iLoop];
 	}
 	MTXproduct.MTXdisplay();
+
+	for (iLoop = 0; iLoop < iMatrixCount; iLoop++) {
+		cout << "Matrix " << iLoop << ": " << CMatrixOperation::MTOdeterminant(pMTXarray[iLoop])<<endl;
+	}
 
 	return 0;
 }

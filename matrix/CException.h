@@ -5,90 +5,86 @@
 #include <string.h>
 #include <iostream>
 
+#define ARRAY_INDEX_OUT_OF_BOUNDS 1
+#define INCOMPATIBLE_DIMENSIONS 2
+#define ARITHMETIC_ERROR 3
+#define WRONG_MATRIX_TYPE 4
+#define CAN_NOT_OPEN_FILE 5
+#define KEY_NOT_FOUND 6
+
 using namespace std;
 
 class CException {
 private:
 	unsigned int uiEXCValue;
-	char * pcEXCMessage;
 public:
 	/**********************************
-	Constructeur par défaut
+	Default constructor
 	**********************************
-	Entrée : rien
-	Necessite : néant
-	Sortie : rien
-	Entraîne : initialisation de l'objet
+	Input : nothing
+	Required : nothing
+	Output : nothing
+	Consequence : initialize an empty object
 	**********************************/
 	CException();
 
 	/**********************************
-	Constructeur de recopie
+	Clone constructor
 	**********************************
-	Entrée : un objet de type CException
-	Necessite : néant
-	Sortie : rien
-	Entraîne : initialisation de l'objet
+	Input : object of type CException
+	Required : nothing
+	Output : nothing
+	Consequence : initialization of an exception by copy of EXCobj
 	**********************************/
 	CException(CException & EXCobj);
 
 	/**********************************
-	Constructeur à deux arguments
+	Constructor with one argument
 	**********************************
-	Entrée : la valeur et le message
-	Necessite : néant
-	Sortie : rien
-	Entraîne : initialisation de l'objet
+	Input : integer representing the error value
+	Required : nothing
+	Output : nothing
+	Consequence : initialization of the object
 	**********************************/
-	CException(unsigned int uiValue, char * pcMessage);
+	CException(unsigned int uiValue);
 
 	/**********************************
-	Destructeur
+	Destructor
 	**********************************
-	Entrée : rien
-	Necessite : néant
-	Sortie : rien
-	Entraîne : finalisation de l'objet
+	Input : nothing
+	Required : nothing
+	Output : nothing
+	Consequence : finalize the object
 	**********************************/
 	~CException();
 
 	/**********************************
-	Accesseur écriture uiEXCValue
+	Setter uiEXCValue
 	**********************************
-	Entrée : un entier non signé
-	Necessite : néant
-	Sortie : rien
-	Entraîne : modification de uiEXCValue
+	Input : unsigned integer
+	Required : nothing
+	Output : nothing
+	Consequence : modify uiEXCValue
 	**********************************/
 	void EXCSetValue(unsigned int uiValue);
 
 	/**********************************
-	Accesseur lecture uiEXCValue
+	Getter uiEXCValue
 	**********************************
-	Entrée : rien
-	Necessite : néant
-	Sortie : uiEXCValue
-	Entraîne :rien
+	Input : nothing
+	Required : nothing
+	Output : uiEXCValue
+	Consequence : nothing
 	**********************************/
 	unsigned int EXCGetValue();
 
 	/**********************************
-	Accesseur écriture pcEXCMessage
+	Get message corresponding to the value
 	**********************************
-	Entrée : un pointeur sur un caractère (chaine)
-	Necessite : néant
-	Sortie : rien
-	Entraîne : modification de pcEXCMessage
-	**********************************/
-	void EXCSetMessage(char * pcMessage);
-
-	/**********************************
-	Accesseur lecture pcEXCMessage
-	**********************************
-	Entrée : rien
-	Necessite : néant
-	Sortie : pcEXCMessage
-	Entraîne :rien
+	Input : nothing
+	Required : nothing
+	Output : characters array corresponding to uiEXCValue
+	Consequence : nothing
 	**********************************/
 	char * EXCGetMessage();
 };
