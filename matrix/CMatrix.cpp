@@ -1,11 +1,11 @@
 
 /**********************************
-Constructeur par défaut
+Default constructor
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : rien
-Entraîne : initialisation d'une matrice de taille [0][0]
+Input : nothing
+Required : nothing
+Output : nothing
+Consequence : initialize a matrix with size [0][0]
 **********************************/
 template<class MType>
 CMatrix<MType>::CMatrix() {
@@ -15,12 +15,12 @@ CMatrix<MType>::CMatrix() {
 }
 
 /**********************************
-Constructeur de recopie
+Clone constructor
 **********************************
-Entrée : un objet de type CMatrix<MType> (MTXobj)
-Necessite : néant
-Sortie : rien
-Entraîne : initialisation d'une matrice par recopie de MTXobj 
+Input : object of type CMatrix<MType> (MTXobj)
+Required : nothing
+Output : nothing
+Consequence : initialization of a matrix by copy of MTXobj
 **********************************/
 template<class MType>
 CMatrix<MType>::CMatrix(CMatrix<MType> & MTXobj) {
@@ -28,15 +28,15 @@ CMatrix<MType>::CMatrix(CMatrix<MType> & MTXobj) {
 }
 
 /**********************************
-Constructeur à trois arguments
+Constructor with 3 arguments
 **********************************
-Entrée : nombre de lignes (uiRowCount), nombre de colonnes (uiColumnCount),
-tableau 2d de type MType (pptyArray)
-Necessite : néant
-Sortie : rien
-Entraîne : initialisation d'une matrice de taille [uiRowCount][uiColumnCount],
-	remplie avec les valeurs de pptyArray si ce dernier est défini,
-	sinon tout est mis à zéro
+Input : count of rows (uiRowCount), count of columns (uiColumnCount),
+	2d array of MType type (pptyArray) 
+Required : nothing
+Output : nothing
+Consequence : initialize a matrix with size [uiRowCount][uiColumnCount], 
+	filled with values of pptyArray if this one is definied,
+	if not, all values are set on zero
 **********************************/
 template<class MType>
 CMatrix<MType>::CMatrix(unsigned int uiRowCount, unsigned int uiColumnCount, MType ** pptyArray = nullptr) {
@@ -44,12 +44,12 @@ CMatrix<MType>::CMatrix(unsigned int uiRowCount, unsigned int uiColumnCount, MTy
 }
 
 /**********************************
-Destructeur
+Destructor
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : rien
-Entraîne : finalisation de l'objet avec la méthode MTXfinalize
+Input : nothing
+Required : nothing
+Output : nothing
+Consequence : finalize the object with method MTXfinalize
 **********************************/
 template<class MType>
 CMatrix<MType>::~CMatrix() {
