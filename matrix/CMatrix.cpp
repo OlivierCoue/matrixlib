@@ -57,15 +57,15 @@ CMatrix<MType>::~CMatrix() {
 }
 
 /**********************************
-Initialiseur
+Initializer
 **********************************
-Entrée : nombre de lignes (uiRowCount), nombre de colonnes (uiColumnCount),
-	tableau 2d de type MType (pptyArray)
-Necessite : néant
-Sortie : rien
-Entraîne : allocation du tableau 2d pptMTXmatrix de
-	taille [uiRowCount][uiColumnCount]	remplie avec les valeurs de
-	pptyArray si ce dernier est défini, sinon tout est mis à zéro
+Input : count of rows (uiRowCount), count of columns (uiColumnCount),
+	2d array of MType type (pptyArray)
+Required : nothing
+Output : nothing
+Consequence : allocation of the 2d array (pptMTXmatrix) with size [uiRowCount][uiColumnCount], 
+	filled with values of pptyArray if this one is definied,
+	if not, all values are set on zero
 **********************************/
 template<class MType>
 void CMatrix<MType>::MTXinitialize(unsigned int uiRowCount, unsigned int uiColumnCount, MType ** pptyArray = nullptr) {
@@ -90,28 +90,41 @@ void CMatrix<MType>::MTXinitialize(unsigned int uiRowCount, unsigned int uiColum
 				pptMTXmatrix[uiLoopRow][uiLoopColumn] = pptyArray[uiLoopRow][uiLoopColumn];
 }
 
+/**********************************
+Get column count of the matrix
+**********************************
+Input : nothing
+Required : nothing
+Output : the column count of the matrix
+Consequence : nothing
+**********************************/
 template<class MType>
 unsigned int CMatrix<MType>::MTXgetColumnCount() {
 	return uiMTXcolumnCount;
 }
 
+/**********************************
+Get row count of the matrix
+**********************************
+Input : nothing
+Required : nothing
+Output : the row count of the matrix
+Consequence : nothing
+**********************************/
 template<class MType>
 unsigned int CMatrix<MType>::MTXgetRowCount() {
 	return uiMTXrowCount;
 }
 
 /**********************************
-Accesseur lecture d'une cellule de la matrice
+Get a cell of the matrix
 **********************************
-Entrée : index d'une ligne (uiRow) et index d'une colonne (uiColumn)
-Necessite : uiRow et uiColumn doivent être inférieur
-	à uiMTXrowCountet et uiMTXcolumnCount respectivement,
-	dans le cas contraire un erreur est levée
-Sortie : une valeur de type MType représentant, la valeur
-	ce trouvant à la position [uiRow][uiColumn] de la matrice.
-Entraîne : retourne la valeur ce trouvant à la position [uiRow][uiColumn]
-	de la matrice, lève une excpetion si uiRow ou uiColumn est suppérieur
-	au dimension de la matrice
+Input : index of row (uiRow) and index of column (uiColumn)
+Required : uiRow and uiColumn should be inferior 
+	than respectively uiMTXrowCount and uiMTXcolumnCount
+Output : a value of MType type representing the value
+	on position [uiRow][uiColumn] of the matrix
+Consequence : nothing
 **********************************/
 template<class MType>
 MType CMatrix<MType>::MTXgetCell(unsigned int uiRow, unsigned int uiColumn) {
@@ -121,16 +134,14 @@ MType CMatrix<MType>::MTXgetCell(unsigned int uiRow, unsigned int uiColumn) {
 }
 
 /**********************************
-Accesseur écriture d'une cellule de la matrice
+Set a cell of the matrix
 **********************************
-Entrée : une valeur de type MType (tyValue), un index
-	d'une ligne (uiRow) et un index d'une colonne (uiColumn)
-Necessite : uiRow et uiColumn doivent être inférieur
-	à uiMTXrowCountet et uiMTXcolumnCount respectivement,
-	dans le cas contraire un erreur est levée
-Sortie : néant
-Entraîne : modifie la valeur ce trouvant à la position
-	[uiRow][uiColumn] de la matrice
+Input : index of row (uiRow), index of column (uiColumn)
+	and a MType type value (tyValue)
+Required : uiRow and uiColumn should be inferior 
+	than respectively uiMTXrowCount and uiMTXcolumnCount
+Output : nothing
+Consequence : set the cell at [uiRow][uiColumn] with tyValue
 **********************************/
 template<class MType>
 void CMatrix<MType>::MTXupdateCell(MType tyValue, unsigned int uiRow, unsigned int uiColumn) {
@@ -140,12 +151,12 @@ void CMatrix<MType>::MTXupdateCell(MType tyValue, unsigned int uiRow, unsigned i
 }
 
 /**********************************
-Affichage
+Display matrix
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : néant
-Entraîne : affiche la matrice sur la sortie standard
+Input : nothing
+Required : nothing
+Output : nothing
+Consequence : display the matrix on the standard output
 **********************************/
 template<class MType>
 void CMatrix<MType>::MTXdisplay() {
@@ -160,12 +171,12 @@ void CMatrix<MType>::MTXdisplay() {
 }
 
 /**********************************
-Finalisation
+Finalization
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : néant
-Entraîne : désalocation du tableau 2d pptMTXmatrix
+Input : nothing
+Required : nothing
+Output : nothing
+Consequence : deallocation of the 2d array pptMTXmatrix
 **********************************/
 template<class MType>
 void CMatrix<MType>::MTXfinalize() {
@@ -176,13 +187,13 @@ void CMatrix<MType>::MTXfinalize() {
 }
 
 /**********************************
-Transposé
+Transposed
 **********************************
-Entrée : rien
-Necessite : néant
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant la matrice transposée de la matrice courante
-Entraîne : rien
+Input : nothing
+Required : nothing
+Output : object CMatrix<Mtype> reference
+	representing the transposed matrix of the current matrix
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::MTXgetTransposed() {
@@ -195,13 +206,13 @@ CMatrix<MType> & CMatrix<MType>::MTXgetTransposed() {
 }
 
 /**********************************
-Surcharge opérateur =
+Operator overload =
 **********************************
-Entrée : référence sur un objet CMatrix<MType> (MTXobj)
-Necessite : les dimensions de la matrice courante doivent être
-les même que celles de MTXobj, dans le cas contraire un erreur est levée
-	Sortie : référence sur la matrice courante
-Entraîne : recopie des valeurs de MTXobj dans la matrice courante
+Input : object CMatrix<Mtype> reference (MTXobj)
+Required : dimensions of the current matrix should be the same
+	as dimensions of MTXobj
+Output : current matrix reference
+Consequence : copy the values of MTXObj in the current matrix
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator=(CMatrix<MType> & MTXobj) {
@@ -221,13 +232,13 @@ CMatrix<MType> & CMatrix<MType>::operator=(CMatrix<MType> & MTXobj) {
 }
 
 /**********************************
-Surcharge opérateur *
+Operator overload *
 **********************************
-Entrée : une valeur de type double (dValue)
-Necessite : rien
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant le produit de la matrice courante par dValue
-Entraîne : rien
+Input : a value of double type (dValue)
+Required : nothing
+Output : a object CMatrix<Mtype> reference
+	representing the product of the current matrix by dValue
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator*(double dValue) {
@@ -240,14 +251,13 @@ CMatrix<MType> & CMatrix<MType>::operator*(double dValue) {
 }
 
 /**********************************
-Surcharge opérateur /
+Operator overload /
 **********************************
-Entrée : une valeur de type double (dValue)
-Necessite : dValue doit être différent de 0,
-	dans le cas contraire un erreur est levée.
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant le quotient de la matrice courante par dValue
-Entraîne : rien
+Input : a value of double type (dValue)
+Required : dValue should be different from 0
+Output : a object CMatrix<Mtype> reference
+	representing the quotient of the current matrix by dValue
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator/(double dValue) {
@@ -262,14 +272,14 @@ CMatrix<MType> & CMatrix<MType>::operator/(double dValue) {
 }
 
 /**********************************
-Surcharge opérateur +
+Operator overload +
 **********************************
-Entrée : référence sur un objet de type CMatrix<MType> (MTXobj)
-Necessite : les dimensions de la matrice courante doivent être
-	les même que celles de MTXobj, dans le cas contraire un erreur est levée.
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant la somme de la matrice courante et de MTXobj
-Entraîne : rien
+Input : object CMatrix<Mtype> reference (MTXobj)
+Required : dimensions of the current matrix should be the same
+	as dimensions of MTXobj
+Output : a object CMatrix<Mtype> reference
+	representing the addition of the current matrix by MTXobj
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator+(CMatrix<MType> & MTXobj) {
@@ -284,14 +294,14 @@ CMatrix<MType> & CMatrix<MType>::operator+(CMatrix<MType> & MTXobj) {
 }
 
 /**********************************
-Surcharge opérateur -
+Operator overload -
 **********************************
-Entrée : référence sur un objet de type CMatrix<MType> (MTXobj)
-Necessite : les dimensions de la matrice courante doivent être
-	les même que celles de MTXobj, dans le cas contraire un erreur est levée.
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant de la différence de la matrice courante et de MTXobj
-Entraîne : rien
+Input : object CMatrix<Mtype> reference (MTXobj)
+Required : dimensions of the current matrix should be the same
+	as dimensions of MTXobj
+Output : a object CMatrix<Mtype> reference
+	representing the difference of the current matrix by MTXobj
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator-(CMatrix<MType> & MTXobj) {
@@ -306,15 +316,14 @@ CMatrix<MType> & CMatrix<MType>::operator-(CMatrix<MType> & MTXobj) {
 }
 
 /**********************************
-Surcharge opérateur *
+Operator overload *
 **********************************
-Entrée : référence sur un objet de type CMatrix<MType> (MTXobj)
-Necessite : le nombre de collone de la matrice courante
-	doit être le même que le nombre de ligne de la matrice MTXobj,
-	dans le cas contraire un erreur est levée
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant le produit de la matrice courante et de MTXobj
-Entraîne : rien
+Input : object CMatrix<Mtype> reference (MTXobj)
+Required : dimensions of the current matrix should be the same
+	as dimensions of MTXobj
+Output : a object CMatrix<Mtype> reference
+	representing the product of the current matrix by MTXobj
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & CMatrix<MType>::operator*(CMatrix<MType> & MTXobj) {
@@ -338,14 +347,14 @@ CMatrix<MType> & CMatrix<MType>::operator*(CMatrix<MType> & MTXobj) {
 }
 
 /**********************************
-Surcharge opérateur * du type doublre
+Operator overload * of double
 **********************************
-Entrée : valeur de type (dValue) et une référence sur un objet
-	de type CMatrix<MType> (MTXobj)
-Necessite : rien
-Sortie : référence sur un objet de type CMatrix<MType>
-	représentant le produit de la matrice courante par dValue
-Entraîne : rien
+Input : a value of double type (dValue)
+	and a object CMatrix<Mtype> reference (MTXobj)
+Required : nothing
+Output : a object CMatrix<Mtype> reference
+	representing the product of the current matrix by dValue
+Consequence : nothing
 **********************************/
 template<class MType>
 CMatrix<MType> & operator*(double dValue, CMatrix<MType> & MTXobj) {
